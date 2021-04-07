@@ -45,8 +45,8 @@ function selectInput(info: NpmPackageInfo[]) {
     return inquirer.prompt(input);
 }
 
-export default function InstallHandler() {
-    const package_info = GetPackageJSON();
+export default function InstallHandler(path?:string) {
+    const package_info = GetPackageJSON(path);
     if (!package_info) {
         console.log(`${chalk.red.bold('Error:')} no package.json found in this directory`);
         return;

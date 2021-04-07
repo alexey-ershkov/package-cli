@@ -7,8 +7,8 @@ import InstallHandler from "./src/handlers/install";
 
 const args = ParseArguments() as Args;
 if (args.info) {
-    InfoHandler();
+    InfoHandler(args.path);
 }
 if (args.install) {
-    InstallHandler();
+    InstallHandler(args.path);
 }
