@@ -1,8 +1,11 @@
 {
-  "name": "package-cli",
+  "name": "mail-package-cli",
   "version": "1.0.0",
   "description": "A CLI for looking and add dependencies to package.json",
-  "main": "ts-node ./index.ts",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "start": "ts-node index.ts",
     "bin": "npm run build && npm install -g .",
