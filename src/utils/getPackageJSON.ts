@@ -1,7 +1,7 @@
 import fs from 'fs';
-import Package from "../models/Package";
+import PackageJson from "../models/PackageJson";
 
-export default function GetPackageJSON(): Package|undefined {
+export default function GetPackageJSON(): PackageJson|undefined {
     if (!fs.existsSync('package.json')) {
         return undefined
     }

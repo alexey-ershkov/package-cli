@@ -5,7 +5,7 @@
   "main": "ts-node ./index.ts",
   "scripts": {
     "start": "ts-node index.ts",
-    "bin": "npm run build && npm install -g . && package-cli",
+    "bin": "npm run build && npm install -g .",
     "build": "npx tsc"
   },
   "repository": {
@@ -30,5 +30,9 @@
     "ts-node": "^9.1.1",
     "tslint": "^6.1.3",
     "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.3"
   }
 }

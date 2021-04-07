@@ -1,7 +1,10 @@
 #!/usr/bin/env node
-import GetPackageJSON from "./src/files/files";
-import Package from "./src/models/Package";
+import ParseArguments from "./src/utils/parseArguments";
+import Args from "./src/models/Args";
+import InfoHandler from "./src/handlers/info";
 
 
-const file: Package|undefined = GetPackageJSON();
-console.log(file? file.name : 'Файл package.json не найден')
+const args = ParseArguments() as Args;
+if (args.info) {
+    InfoHandler();
+}
