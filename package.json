@@ -1,6 +1,6 @@
 {
   "name": "mail-package-cli",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A CLI for looking and add dependencies to package.json",
   "main": "dist/index.js",
   "files": [
@@ -22,7 +22,7 @@
   "author": "Alexey Ershkov",
   "license": "MIT",
   "bin": {
-    "package-cli": "./dist/index.js"
+    "mail-package-cli": "./dist/index.js"
   },
   "bugs": {
     "url": "https://github.com/alexey-ershkov/package-cli/issues"
