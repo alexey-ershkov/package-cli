@@ -1,0 +1,38 @@
+{
+  "name": "package-cli",
+  "version": "1.0.0",
+  "description": "A CLI for looking and add dependencies to package.json",
+  "main": "ts-node ./index.ts",
+  "scripts": {
+    "start": "ts-node index.ts",
+    "bin": "npm run build && npm install -g .",
+    "build": "npx tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexey-ershkov/package-cli.git"
+  },
+  "keywords": [
+    "CLI",
+    "package.json"
+  ],
+  "author": "Alexey Ershkov",
+  "license": "MIT",
+  "bin": {
+    "package-cli": "./dist/index.js"
+  },
+  "bugs": {
+    "url": "https://github.com/alexey-ershkov/package-cli/issues"
+  },
+  "homepage": "https://github.com/alexey-ershkov/package-cli#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.37",
+    "ts-node": "^9.1.1",
+    "tslint": "^6.1.3",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "commander": "^2.20.3"
+  }
+}
