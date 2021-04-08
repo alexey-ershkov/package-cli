@@ -1,13 +1,11 @@
 import commander from "commander";
 import Args from "../models/Args";
 
-//TODO Add find package.json in other dirs
-
 export default function ParseArguments() {
     commander.option('info', 'Show package.json info');
     commander.option('install', 'Add package and install it');
     commander.option('-p, --path <path>', 'Path to package.json', '.');
-    commander.version('1.0.2' , '-v , --version');
+    commander.version('1.0.3' , '-v , --version');
     commander.name('package-cli')
     commander.usage('<command>');
     if (process.argv.length === 2){

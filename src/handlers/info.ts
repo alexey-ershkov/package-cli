@@ -51,7 +51,7 @@ function genInfoOutput(info: PackageJson) {
     return output
 }
 
-export default function InfoHandler(path?: string) {
+export default function InfoHandler(path: string) {
     const package_info = GetPackageJSON(path);
     if (!package_info) {
         console.log(`${chalk.red.bold('Error:')} no package.json found in this directory`);
