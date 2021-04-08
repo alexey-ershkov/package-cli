@@ -5,7 +5,7 @@ export default function ParseArguments() {
     commander.option('info', 'Show package.json info');
     commander.option('install', 'Add package and install it');
     commander.option('-p, --path <path>', 'Path to package.json', '.');
-    commander.version('1.0.4' , '-v , --version');
+    commander.version('1.0.5' , '-v , --version');
     commander.name('package-cli')
     commander.usage('<command>');
     if (process.argv.length === 2){

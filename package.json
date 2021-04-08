@@ -1,6 +1,6 @@
 {
   "name": "mail-package-cli",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A CLI for looking and add dependencies to package.json",
   "main": "dist/index.js",
   "files": [

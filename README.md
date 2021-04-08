@@ -1,7 +1,7 @@
 # package-cli
 A CLI to show and add dependencies to package.json
 
-##Install
+## Install
 Via npm
 ```
 $ npm i -g mail-package-cli
