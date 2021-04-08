@@ -1,99 +1,98 @@
-import GetPackageJSON from "../utils/getPackageJSON";
-import chalk from "chalk";
-import inquirer from "inquirer";
-import {exec} from "child_process";
-import SearchAnswers from "../models/SearchAnswers";
-import * as util from "util";
-import NpmPackageInfo from "../models/NpmPackageInfo";
-import SelectAnswers from "../models/SelectAnswers";
-import ora from "ora";
+import GetPackageJSON from '../utils/getPackageJSON'
+import chalk from 'chalk'
+import inquirer from 'inquirer'
+import { exec } from 'child_process'
+import SearchAnswers from '../models/SearchAnswers'
+import * as util from 'util'
+import NpmPackageInfo from '../models/NpmPackageInfo'
+import SelectAnswers from '../models/SelectAnswers'
+import ora from 'ora'
 
-const asyncExec = util.promisify(exec);
+const asyncExec = util.promisify(exec)
 
-function searchInput() {
-    let input = [];
-    input.push({
-        name: "search",
-        type: "input",
-        message: "Input package name you want to install",
-    })
+function searchInput () {
+  const input = []
+  input.push({
+    name: 'search',
+    type: 'input',
+    message: 'Input package name you want to install'
+  })
 
-    return inquirer.prompt(input);
+  return inquirer.prompt(input)
 }
 
-function selectInput(info: NpmPackageInfo[]) {
+function selectInput (info: NpmPackageInfo[]) {
+  const input = []
+  input.push({
+    type: 'list',
+    name: 'selected_package',
+    message: 'Choose package:',
+    choices: info.map((info) => {
+      return info.name
+    }, []),
+    default: info[0].name
+  })
 
-    let input = [];
-    input.push({
-        type: 'list',
-        name: 'selected_package',
-        message: 'Choose package:',
-        choices: info.map((info) => {
-            return info.name
-        }, []),
-        default: info[0].name
-    })
+  input.push({
+    type: 'list',
+    name: 'dep_type',
+    message: 'Choose dependency type:',
+    choices: ['Production', 'Development'],
+    default: 'Production'
+  })
 
-    input.push({
-        type: 'list',
-        name: 'dep_type',
-        message: 'Choose dependency type:',
-        choices: ['Production', 'Development'],
-        default: 'Production'
-    })
-
-    return inquirer.prompt(input);
+  return inquirer.prompt(input)
 }
 
-export default function InstallHandler(path:string) {
-    const package_info = GetPackageJSON(path);
-    if (!package_info) {
-        console.log(`${chalk.red.bold('Error:')} no package.json found in this directory`);
-        return;
-    }
+export default function InstallHandler (path:string) {
+  const packageInfo = GetPackageJSON(path)
+  if (!packageInfo) {
+    console.log(`${chalk.red.bold('Error:')} no package.json found in this directory`)
+    return
+  }
 
-    const spinner = ora();
-    spinner.color = 'blue';
+  const spinner = ora()
+  spinner.color = 'blue'
 
-    searchInput()
-        .then((answers) => {
-            spinner.start('Searching')
-            const typedAnswers = answers as SearchAnswers;
-            return asyncExec(`npm search --json ${typedAnswers.search}`);
-        })
-        .then(({stdout, stderr}) => {
-            if (stderr) {
-                return Promise.reject(new Error(stderr));
-            }
+  searchInput()
+    .then((answers) => {
+      spinner.start('Searching')
+      const typedAnswers = answers as SearchAnswers
+      return asyncExec(`npm search --json ${typedAnswers.search}`)
+    })
+    .then(({ stdout, stderr }) => {
+      if (stderr) {
+        return Promise.reject(new Error(stderr))
+      }
 
-            spinner.stop();
-            if (stdout === "\n]\n\n") {
-                return Promise.reject(new Error('No packages found'));
-            }
+      spinner.stop()
+      if (stdout === '\n]\n\n') {
+        return Promise.reject(new Error('No packages found'))
+      }
 
-            return selectInput(JSON.parse(stdout));
-        })
-        .then(answers => {
-            const typedAnswers = answers as SelectAnswers;
-            spinner.start('Installing')
-            if (typedAnswers.dep_type === 'Production') {
-                return asyncExec(`npm i --prefix ${path} ${typedAnswers.selected_package}`);
-            } else {
-                return asyncExec(`npm i ${typedAnswers.selected_package} -D`)
-            }
-        })
-        .then(({stdout, stderr}) => {
-            if (stderr) {
-                return Promise.reject(new Error(stderr));
-            }
-            if (stdout.includes('up to date')) {
-                spinner.fail(chalk.bold.yellow('ALREADY INSTALLED'));
-            } else {
-                spinner.succeed(chalk.bold.green("PACKAGE INSTALLED"));
-            }
-        })
+      return selectInput(JSON.parse(stdout))
+    })
+    .then(answers => {
+      const typedAnswers = answers as SelectAnswers
+      spinner.start('Installing')
+      if (typedAnswers.depType === 'Production') {
+        return asyncExec(`npm i --prefix ${path} ${typedAnswers.selectedPackage}`)
+      } else {
+        return asyncExec(`npm i ${typedAnswers.selectedPackage} -D`)
+      }
+    })
+    .then(({ stdout, stderr }) => {
+      if (stderr) {
+        return Promise.reject(new Error(stderr))
+      }
+      if (stdout.includes('up to date')) {
+        spinner.fail(chalk.bold.yellow('ALREADY INSTALLED'))
+      } else {
+        spinner.succeed(chalk.bold.green('PACKAGE INSTALLED'))
+      }
+    })
 
-        .catch(err => {
-            console.error(`${chalk.red.bold('Error: ')} ${err.message}`);
-        })
+    .catch(err => {
+      console.error(`${chalk.red.bold('Error: ')} ${err.message}`)
+    })
 }
