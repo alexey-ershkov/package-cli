@@ -1,4 +1,4 @@
-# package-cli
+# mail-package-cli
 A CLI to show and add dependencies to package.json
 
 [See on npmjs.com](https://www.npmjs.com/package/mail-package-cli)
